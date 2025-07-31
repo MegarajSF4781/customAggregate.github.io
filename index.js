@@ -57,7 +57,7 @@ var summaryData = [
 
 var footer = (data) => {
     
-    return `<span> Count ${data.Custom}</span>`;
+    return `<span>Count of Frozen seafood is ${data.Custom}</span>`;
 };
 var customAggregateFn = (data) => {return 5}
 var treegrid = new ej.treegrid.TreeGrid({
