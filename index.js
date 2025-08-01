@@ -7,7 +7,7 @@ const excelAggregateQueryCellInfo = (args) => {
         args.style.value = `Total Units Of Frozen Seafood: ${args.row.data.units.Custom}`;
     }
     else if (args.cell.column.headerText === "Price($)") {
-        args.style.value = `Total Amount Of Frozen Seafood(incl. 10% Tax): $${args.row.data.price.Custom}\n test`;
+        args.style.value = `Total Amount Of Frozen Seafood(incl. 10% Tax): $${args.row.data.price.Custom}`;
     }
 
 
