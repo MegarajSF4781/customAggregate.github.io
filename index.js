@@ -1,13 +1,26 @@
 ej.treegrid.TreeGrid.Inject(ej.treegrid.VirtualScroll,ej.treegrid.Toolbar,ej.treegrid.ExcelExport,ej.treegrid.PdfExport);
 const excelAggregateQueryCellInfo = (args) => {
     if (args.cell.column.headerText === "Category") {
-        args.style.value = `Count of Frozen seafood is ${args.row.data.category.Custom}`;
+        args.style.value = `Frozen Seafood Category Count: ${args.row.data.category.Custom}`;
     }
+    else if (args.cell.column.headerText === "units") {
+        args.style.value = `Total Units Of Frozen Seafood: ${args.row.data.units.Custom}`;
+    }
+    else if (args.cell.column.headerText === "unitPrice") {
+        args.style.value = `Total Amount(incl. 10% Tax): $${args.row.data.category.Custom}`;
+    }
+
 
 };
 const pdfAggregateQueryCellInfo = (args) => {
     if (args.cell.column.headerText === "Category") {
-        args.value = `Count of Frozen seafood is ${args.row.data.category.Custom}`;
+        args.value = `Frozen Seafood Category Count: ${args.row.data.category.Custom}`;
+    }
+    else if (args.cell.column.headerText === "units") {
+        args.value = `Total Units Of Frozen Seafood: ${args.row.data.units.Custom}`;
+    }
+    else if (args.cell.column.headerText === "unitPrice") {
+        args.value = `Total Amount(incl. 10% Tax): $${args.row.data.category.Custom}`;
     }
 
 };
@@ -56,10 +69,49 @@ var summaryData = [
 ];
 
 var footer = (data) => {
-    
-    return `<span>Count of Frozen seafood is ${data.Custom}</span>`;
+    return `<span> Frozen Seafood Category Count: ${data.Custom}</span>`;
 };
-var customAggregateFn = (data) => {return 5}
+var footer2 = (data) =>{
+    return `<span> Total Units Of Frozen Seafood: ${data.Custom}</span>`;
+}
+var footer3 = (data) =>{
+    return `<span>Total Amount(incl. 10% Tax): $${data.Custom}</span>`;
+}
+// var customAggregateFn = (data) => {return 5}
+var customAggregateFn = function(data, aggColumn){
+var sampleData = data.result? ej.grids.getObject('result', data) : data;
+    var countLength = 0;
+    sampleData.filter((item) => {
+        var data = ej.grids.getObject('category', item);
+        if (data === 'Frozen seafood') {
+            countLength++;
+        }
+    });
+    return countLength;
+}
+var customAggregateFn2 = function(data, aggColumn){
+    
+    var sampleData = data.result? ej.grids.getObject('result', data) : data;
+    var countLength = 0;
+    sampleData.filter((item) => {
+        var data = ej.grids.getObject('category', item);
+        if (data === 'Frozen seafood') {
+            countLength+= parseInt(ej.grids.getObject('units', item));
+        }
+    });
+    return countLength;
+}
+var customAggregateFn3 = function(data, aggColumn){
+var sampleData = data.result? ej.grids.getObject('result', data) : data;
+    var countLength = 0;
+    sampleData.filter((item) => {
+        var data = ej.grids.getObject('category', item);
+        if (data === 'Frozen seafood') {
+            countLength+= parseInt(ej.grids.getObject('unitPrice', item));
+        }
+    });
+    return countLength + (countLength *0.10);
+}
 var treegrid = new ej.treegrid.TreeGrid({
     dataSource: summaryData,
         childMapping: 'subtasks',
@@ -87,6 +139,18 @@ var treegrid = new ej.treegrid.TreeGrid({
                 customAggregate: customAggregateFn,
                 columnName: 'category',
                 footerTemplate: footer
+            },
+            {
+                type: 'Custom',
+                customAggregate: customAggregateFn2,
+                columnName: 'units',
+                footerTemplate: footer2
+            },
+            {
+                type: 'Custom',
+                customAggregate: customAggregateFn3,
+                columnName: 'unitPrice',
+                footerTemplate: footer3
             }]
         }],
     
