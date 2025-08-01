@@ -3,11 +3,11 @@ const excelAggregateQueryCellInfo = (args) => {
     if (args.cell.column.headerText === "Category") {
         args.style.value = `Frozen Seafood Category Count: ${args.row.data.category.Custom}`;
     }
-    else if (args.cell.column.headerText === "units") {
+    else if (args.cell.column.headerText === "Total Units") {
         args.style.value = `Total Units Of Frozen Seafood: ${args.row.data.units.Custom}`;
     }
-    else if (args.cell.column.headerText === "unitPrice") {
-        args.style.value = `Total Amount(incl. 10% Tax): $${args.row.data.category.Custom}`;
+    else if (args.cell.column.headerText === "Price($)") {
+        args.style.value = `Total Amount Of Frozen Seafood(incl. 10% Tax): $${args.row.data.price.Custom}\n test`;
     }
 
 
@@ -16,11 +16,11 @@ const pdfAggregateQueryCellInfo = (args) => {
     if (args.cell.column.headerText === "Category") {
         args.value = `Frozen Seafood Category Count: ${args.row.data.category.Custom}`;
     }
-    else if (args.cell.column.headerText === "units") {
+    else if (args.cell.column.headerText === "Total Units") {
         args.value = `Total Units Of Frozen Seafood: ${args.row.data.units.Custom}`;
     }
-    else if (args.cell.column.headerText === "unitPrice") {
-        args.value = `Total Amount(incl. 10% Tax): $${args.row.data.category.Custom}`;
+    else if (args.cell.column.headerText === "Price($)") {
+        args.value = `Total Amount Of Frozen Seafood(incl. 10% Tax): $${args.row.data.price.Custom}`;
     }
 
 };
@@ -75,7 +75,7 @@ var footer2 = (data) =>{
     return `<span> Total Units Of Frozen Seafood: ${data.Custom}</span>`;
 }
 var footer3 = (data) =>{
-    return `<span>Total Amount(incl. 10% Tax): $${data.Custom}</span>`;
+    return `<span>Total Amount Of Frozen Seafood(incl. 10% Tax): $${data.Custom}</span>`;
 }
 // var customAggregateFn = (data) => {return 5}
 var customAggregateFn = function(data, aggColumn){
@@ -107,7 +107,7 @@ var sampleData = data.result? ej.grids.getObject('result', data) : data;
     sampleData.filter((item) => {
         var data = ej.grids.getObject('category', item);
         if (data === 'Frozen seafood') {
-            countLength+= parseInt(ej.grids.getObject('unitPrice', item));
+            countLength+= parseInt(ej.grids.getObject('price', item));
         }
     });
     return countLength + (countLength *0.10);
@@ -125,11 +125,11 @@ var treegrid = new ej.treegrid.TreeGrid({
         toolbar: ['ExcelExport', 'PdfExport'],
         
         columns: [
-            { field: 'ID', headerText: 'S.No', width: 90, textAlign: 'Right' },
-            { field: 'Name', headerText: 'Shipment Name', width: 100 },
-            { field: 'category', headerText: 'Category', width: 100, },
-            { field: 'units', headerText: 'Total Units', width: 100,  textAlign: 'Right' },
-            { field: 'unitPrice', headerText: 'Unit Price($)', width: 110,   textAlign: 'Right' },
+            { field: 'ID', headerText: 'S.No', width: 50, textAlign: 'Right' },
+            { field: 'Name', headerText: 'Shipment Name', width: 80,textAlign: 'Left' },
+            { field: 'category', headerText: 'Category', width: 100,textAlign: 'Left' },
+            { field: 'units', headerText: 'Total Units', width: 80,  textAlign: 'Right' },
+            { field: 'unitPrice', headerText: 'Unit Price($)', width: 50,   textAlign: 'Right' },
             { field: 'price', headerText: 'Price($)', width: 110, textAlign: 'Right', },
         ],
         aggregates: [{
@@ -149,7 +149,7 @@ var treegrid = new ej.treegrid.TreeGrid({
             {
                 type: 'Custom',
                 customAggregate: customAggregateFn3,
-                columnName: 'unitPrice',
+                columnName: 'price',
                 footerTemplate: footer3
             }]
         }],
