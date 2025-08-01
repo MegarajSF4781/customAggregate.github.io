@@ -127,7 +127,7 @@ var treegrid = new ej.treegrid.TreeGrid({
         columns: [
             { field: 'ID', headerText: 'S.No', width: 50, textAlign: 'Right' },
             { field: 'Name', headerText: 'Shipment Name', width: 80,textAlign: 'Left' },
-            { field: 'category', headerText: 'Category', width: 100,textAlign: 'Left' },
+            { field: 'category', headerText: 'Category', width: 80,textAlign: 'Left' },
             { field: 'units', headerText: 'Total Units', width: 80,  textAlign: 'Right' },
             { field: 'unitPrice', headerText: 'Unit Price($)', width: 50,   textAlign: 'Right' },
             { field: 'price', headerText: 'Price($)', width: 110, textAlign: 'Right', },
